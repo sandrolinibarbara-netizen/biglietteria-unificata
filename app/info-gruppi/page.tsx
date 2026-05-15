@@ -1,11 +1,10 @@
 import Image from "next/image";
-import data from '@/utils/musei.json'
 import TicketCard from "@/app/_components/TicketCard";
 import Link from "next/link";
 
 export default async function InfoGruppi() {
 
-    let content;
+    let content, contentMuseums;
 
     try {
         const data = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/info-gruppi'+
@@ -13,7 +12,10 @@ export default async function InfoGruppi() {
             {next: {revalidate: 1000}}
         );
         content = await data.json();
-        console.log(content)
+
+        const dataMuseums = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/museums?populate=*',
+            {next: {revalidate: 1000}})
+        contentMuseums = await dataMuseums.json();
 
     } catch(e) {
         console.log(e);
@@ -37,50 +39,46 @@ export default async function InfoGruppi() {
                 <div className="flex flex-col gap-4">
                     <TicketCard el={{
                         titolo: "",
-                        nome: "Ticket gruppi " + data[0].nome,
+                        nome: "Ticket gruppi " + contentMuseums.data[0].titolo,
                         descrizione: "Prenota l'accesso per il tuo gruppo.",
                         infoPrezzo: "",
-                        prezzo: new Intl.NumberFormat("de-DE", {
-                            style: "currency",
-                            currency: "EUR"
-                        }).format(data[0].biglietti[0].prezzo),
-                        pic: "0-groups"
+                        prezzo: undefined,
+                        pic: "0-groups",
+                        slug: contentMuseums.data[0].slug,
+                        immagine: contentMuseums.data[0].immagine_biglietti_gruppi
                     }}/>
 
                     <TicketCard el={{
                         titolo: "",
-                        nome: "Ticket gruppi " + data[1].nome,
+                        nome: "Ticket gruppi " + contentMuseums.data[1].titolo,
                         descrizione: "Prenota l'accesso per il tuo gruppo.",
                         infoPrezzo: "",
-                        prezzo: new Intl.NumberFormat("de-DE", {
-                            style: "currency",
-                            currency: "EUR"
-                        }).format(data[1].biglietti[0].prezzo),
-                        pic: "1-groups"
+                        prezzo: undefined,
+                        pic: "1-groups",
+                        slug: contentMuseums.data[1].slug,
+                        immagine: contentMuseums.data[1].immagine_biglietti_gruppi
                     }}/>
 
                     <TicketCard el={{
                         titolo: "",
-                        nome: "Ticket gruppi " + data[2].nome,
+                        nome: "Ticket gruppi " + contentMuseums.data[2].titolo,
                         descrizione: "Prenota l'accesso per il tuo gruppo.",
                         infoPrezzo: "",
-                        prezzo: new Intl.NumberFormat("de-DE", {
-                            style: "currency",
-                            currency: "EUR"
-                        }).format(data[2].biglietti[0].prezzo),
-                        pic: "2-groups"
+                        prezzo: undefined,
+                        pic: "2-groups",
+                        slug: contentMuseums.data[2].slug,
+                        immagine: contentMuseums.data[2].immagine_biglietti_gruppi
                     }}/>
 
                     <TicketCard el={{
                         titolo: "",
-                        nome: "Ticket gruppi " + data[3].nome,
+                        nome: "Ticket gruppi " + contentMuseums.data[3].titolo,
                         descrizione: "Prenota l'accesso per il tuo gruppo.",
                         infoPrezzo: "",
-                        prezzo: new Intl.NumberFormat("de-DE", {
-                            style: "currency",
-                            currency: "EUR"
-                        }).format(data[3].biglietti[0].prezzo),
-                        pic: "3-groups"
+                        prezzo: undefined,
+                        pic: "3-groups",
+                        slug: contentMuseums.data[3].slug,
+                        immagine: contentMuseums.data[3].immagine_biglietti_gruppi
                     }}/>
 
 

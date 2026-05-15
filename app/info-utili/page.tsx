@@ -80,8 +80,8 @@ export default async function InfoUtili() {
                                     boxShadow: "none",
                                 }}>
                                     <AccordionSummary expandIcon={<Plus width={24} height={24}/>}
-                                                      aria-controls="panel1-content"
-                                                      id="panel1-header"
+                                                      aria-controls={`${el.documentId}-hours-content`}
+                                                      id={`${el.documentId}-hours-header`}
                                                       sx={{
                                                           fontWeight: 500,
                                                           fontSize: "1.25rem",
@@ -94,7 +94,7 @@ export default async function InfoUtili() {
                                     >
                                         Orari
                                     </AccordionSummary>
-                                    <AccordionDetails>
+                                    <AccordionDetails id={`${el.documentId}-hours-content`}>
                                         <div className="markdown">
                                             <Markdown>
                                                 {el.orari}
@@ -110,8 +110,8 @@ export default async function InfoUtili() {
                                     boxShadow: "none",
                                 }}>
                                     <AccordionSummary expandIcon={<Plus width={24} height={24}/>}
-                                                      aria-controls="panel1-content"
-                                                      id="panel1-header"
+                                                      aria-controls={`${el.documentId}-accessibility-content`}
+                                                      id={`${el.documentId}-accessibility-header`}
                                                       sx={{
                                                           fontWeight: 500,
                                                           fontSize: "1.25rem",
@@ -124,7 +124,7 @@ export default async function InfoUtili() {
                                     >
                                         Accessibilità
                                     </AccordionSummary>
-                                    <AccordionDetails>
+                                    <AccordionDetails id={`${el.documentId}-accessibility-content`}>
                                         <div className="markdown">
                                             <Markdown>
                                                 {el.accessibilita}
@@ -142,8 +142,8 @@ export default async function InfoUtili() {
                                         boxShadow: "none",
                                     }}>
                                         <AccordionSummary expandIcon={<Plus width={24} height={24}/>}
-                                                          aria-controls="panel1-content"
-                                                          id="panel1-header"
+                                                          aria-controls={`${el.documentId}-reductions-content`}
+                                                          id={`${el.documentId}-reductions-header`}
                                                           sx={{
                                                               fontWeight: 500,
                                                               fontSize: "1.25rem",
@@ -160,7 +160,7 @@ export default async function InfoUtili() {
                                                     className="block text-sm font-regular">(con esibizione di documentazione idonea)</span>
                                             </p>
                                         </AccordionSummary>
-                                        <AccordionDetails>
+                                        <AccordionDetails id={`${el.documentId}-reductions-content`}>
                                             <div className="markdown">
                                                 <Markdown>
                                                     {el.riduzioni}
@@ -180,8 +180,8 @@ export default async function InfoUtili() {
                                             boxShadow: "none",
                                         }}>
                                             <AccordionSummary expandIcon={<Plus width={24} height={24}/>}
-                                                              aria-controls="panel1-content"
-                                                              id="panel1-header"
+                                                              aria-controls={`${el.documentId}-free-content`}
+                                                              id={`${el.documentId}-free-header`}
                                                               sx={{
                                                                   fontWeight: 500,
                                                                   fontSize: "1.25rem",
@@ -198,7 +198,7 @@ export default async function InfoUtili() {
                                                         className="block text-sm font-regular">(con esibizione di documentazione idonea)</span>
                                                 </p>
                                             </AccordionSummary>
-                                            <AccordionDetails>
+                                            <AccordionDetails id={`${el.documentId}-free-content`}>
                                                 <div className="markdown">
                                                     <Markdown>
                                                         {el.gratuita}

@@ -11,8 +11,7 @@ export default async function MuseoArcheologico() {
     let content;
 
     try {
-        const data = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/museums/u0mwtez9c4m0axyk796qfuz2' +
-            '?populate[0]=immagine',
+        const data = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/museums/u0mwtez9c4m0axyk796qfuz2?populate=*',
             {next: {revalidate: 1000}}
         );
         content = await data.json();
@@ -48,7 +47,9 @@ export default async function MuseoArcheologico() {
                         descrizione: data[1].descrizione,
                         infoPrezzo: "A partire da:",
                         prezzo: getLowerPrice(data[1].biglietti),
-                        pic: "1-ticket"
+                        pic: "1-ticket",
+                        slug: content.data.slug,
+                        immagine: content.data.immagine_biglietti_standard
                     }}/>
 
                     <TicketCard el={{
@@ -60,7 +61,9 @@ export default async function MuseoArcheologico() {
                             style: "currency",
                             currency: "EUR"
                         }).format(12),
-                        pic: "cumulativo"
+                        pic: "cumulativo",
+                        slug: content.data.slug,
+                        immagine: content.data.immagine_biglietti_standard
                     }}/>
 
                     <TicketCard el={{
@@ -72,7 +75,9 @@ export default async function MuseoArcheologico() {
                             style: "currency",
                             currency: "EUR"
                         }).format(8),
-                        pic: "1-groups"
+                        pic: "1-groups",
+                        slug: content.data.slug,
+                        immagine: content.data.immagine_biglietti_gruppi
                     }}/>
 
                     <TicketCard el={{
@@ -81,7 +86,9 @@ export default async function MuseoArcheologico() {
                         descrizione: "Prenota l'ingresso per il tuo gruppo scolastico.",
                         infoPrezzo: "",
                         prezzo: "Gratuito",
-                        pic: "servizi-educativi"
+                        pic: "servizi-educativi",
+                        slug: content.data.slug,
+                        immagine: content.data.immagine_biglietti_scuole
                     }}/>
 
                 </div>
@@ -93,7 +100,11 @@ export default async function MuseoArcheologico() {
                     <h3 className="text-2xl font-semibold mt-2 prime-text">Proposte educative</h3>
                     <p>Dalle scuole dell'infanzia, fino agli adulti lavoriamo per aprire le porte dei musei e renderli accessibili al più ampio numero possibile di persone.</p>
                     <div className="mb-4 text-black w-full text-end font-medium text-lg">
-                        <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Scopri di più</Link>
+                        <a
+                           aria-label="Vai alla pagina dedicata alle nostre proposte educative"
+                           target="_blank" rel="noopener noreferrer"
+                           href="https://musei.comune.cremona.it/it/servizi-educativi/informazioni-didattica"
+                           className="w-fit prime-bg rounded-full px-4 py-2">Scopri di più</a>
                     </div>
                 </div>
             </section>

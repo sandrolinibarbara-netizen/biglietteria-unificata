@@ -11,22 +11,22 @@ export default function TicketCard({el}: {el:any}) {
                     <div className="flex flex-col gap-4 bg-white rounded-xl text-black p-4 my-4">
                         <Image
                             className="w-full h-[200px] object-cover rounded-xl"
-                            src={`/placeholders/${el.pic}.jpg`} alt="Interno di un museo" width={300} height={200}/>
+                            src={process.env.NEXT_PUBLIC_BASE_URL + el.immagine.url} alt={el.immagine.alternativeText} width={300} height={200}/>
                         <div className="flex flex-col gap-2">
                             <h4 className="text-xl font-medium">{el.nome}</h4>
                             <p>{el.descrizione}</p>
                             <div className="flex items-center justify-between mt-4">
-                                {el.infoPrezzo !== ""
+                                {el.prezzo && el.infoPrezzo !== ""
                                     ? <p className="text-sm">{el.infoPrezzo}<br/><span
                                         className="text-xl font-medium">{el.prezzo}</span></p>
                                     : <p className="text-xl font-medium">{el.prezzo}</p>
                                 }
-                                <Link
+                                <a target="_blank" rel="noopener noreferrer"
                                     className="flex items-center gap-2 text-lg font-medium prime-bg rounded-full px-4 py-2"
-                                    href='/'>
+                                   href={`https://multishop-cremona.collaudo.domniapass.com/it/products/${el.slug}`}>
                                     Prenota
                                     <CircledArrow width={28} height={28}/>
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </div>

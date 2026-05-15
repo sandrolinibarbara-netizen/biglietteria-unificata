@@ -22,15 +22,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-white text-black">
+    <html lang="it" className="bg-white text-black">
       <body
         className={`${poppins.className} antialiased`}
       >
       <Menu/>
-        {children}
+      <main id="main">
+          {children}
+      </main>
       <Footer/>
       <Script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js" defer />
-
       </body>
     </html>
   );

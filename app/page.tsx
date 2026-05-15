@@ -66,16 +66,16 @@ export default async function Home() {
             <p className="text-xl">{content.data.descrizione}</p>
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col md:flex-row gap-4">
             { museums &&
                 museums.map((el) => {
                     return(
-                        <div className="w-full text-white rounded-xl gradient"
+                        <div className="w-full md:w-1/4 text-white rounded-xl gradient"
                             key={el.title}>
                             <div className="w-full h-[200px]">
                                 <Image
                                     className="w-full h-full object-cover rounded-t-xl"
-                                    src={process.env.NEXT_PUBLIC_BASE_URL + el.heroImage.url} alt={`Interno del ${el.title}`} width={300} height={200}/>
+                                    src={process.env.NEXT_PUBLIC_BASE_URL + el.heroImage.url} alt={el.heroImage.alternativeText} width={300} height={200}/>
                             </div>
                             <div className="p-4 mt-2">
                                 <h3 className="text-2xl font-medium">{el.title}</h3>
@@ -116,10 +116,11 @@ export default async function Home() {
         {/*Biglietto cumulativo*/}
         <section className="w-[90%] mx-auto pt-8">
             <div className="w-full text-white rounded-xl gradient">
-                <div className="p-4 mt-2">
-                    <h3 className="text-2xl font-semibold prime-text mt-4">Ticket Cumulativo</h3>
-                    <p className="text-xl text-medium mt-2">Scoprire un museo è bello, ma visitarne più di uno è meglio. Il ticket cumulativo ti consente l&apos;accesso a tutti i Musei del Polo Civico con tariffa agevolata.</p>
-
+                <div className="p-4 md:p-8 mt-2 flex flex-col md:flex-row md:items-center md:gap-8">
+                    <div>
+                        <h2 className="text-2xl font-semibold prime-text mt-4">Ticket Cumulativo</h2>
+                        <p className="text-xl text-medium mt-2">Scoprire un museo è bello, ma visitarne più di uno è meglio. Il ticket cumulativo ti consente l&apos;accesso a tutti i Musei del Polo Civico con tariffa agevolata.</p>
+                    </div>
                     <div className="flex flex-col gap-4 bg-white rounded-xl text-black p-4 mt-8 mb-4">
                         <Image
                             className="w-full h-[200px] object-cover rounded-xl"
@@ -129,12 +130,13 @@ export default async function Home() {
                             <div className="flex items-center justify-between mt-4">
                                 <p className="text-sm">A partire da: <br/><span
                                     className="text-xl font-medium">12euro</span></p>
-                                <Link
+                                <a
+                                    target="_blank" rel="noopener noreferrer"
                                     className="flex items-center gap-2 text-lg font-medium prime-bg rounded-full px-4 py-2"
                                     href='/'>
                                     Prenota
                                     <CircledArrow width={28} height={28}/>
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -143,43 +145,45 @@ export default async function Home() {
         </section>
 
         {/*Search bar*/}
-        <section className="w-[90%] mx-auto pt-8">
-                <div className="flex flex-col gap-8 p-4 mt-2 w-full text-white rounded-xl gradient">
-                    <h3 className="text-2xl font-semibold mt-2">Cerchi qualcosa di specifico?</h3>
-                    <input type="text" className="text-black rounded-full bg-white h-[48px] p-2"/>
-                    <div className="mb-4 text-black w-full text-end font-medium text-lg">
-                        <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Cerca</Link>
-                    </div>
-                </div>
-        </section>
+        {/*<section className="w-[90%] mx-auto pt-8">*/}
+        {/*        <div className="flex flex-col gap-8 p-4 mt-2 w-full text-white rounded-xl gradient">*/}
+        {/*            <h3 className="text-2xl font-semibold mt-2">Cerchi qualcosa di specifico?</h3>*/}
+        {/*            <input type="text" className="text-black rounded-full bg-white h-[48px] p-2"/>*/}
+        {/*            <div className="mb-4 text-black w-full text-end font-medium text-lg">*/}
+        {/*                <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Cerca</Link>*/}
+        {/*            </div>*/}
+        {/*        </div>*/}
+        {/*</section>*/}
 
         {/*Biglietto gruppi*/}
-        <section className="w-[90%] mx-auto pt-8">
-            <div className="flex flex-col gap-8 p-4 mt-2 w-full text-white rounded-xl gradient">
-                <h3 className="text-2xl font-semibold mt-4 prime-text">Ticket per Gruppi</h3>
-                <Image
-                    className="w-full h-[200px] object-cover rounded-xl"
-                    src="/placeholders/gruppi.jpg" alt="Gruppi turistici" width={300} height={200}/>
+        <section className="w-[90%] mx-auto flex flex-col md:flex-row md:gap-8">
+            <div className="w-full md:w-1/2 pt-8">
+                <div className="flex flex-col gap-8 p-4 mt-2 w-full text-white rounded-xl gradient">
+                    <h2 className="text-2xl font-semibold mt-4 prime-text">Ticket per Gruppi</h2>
+                    <Image
+                        className="w-full h-[200px] object-cover rounded-xl"
+                        src="/placeholders/gruppi.jpg" alt="Gruppi turistici" width={300} height={200}/>
 
-                <p className="text-xl">Prenota l&apos;accesso per il tuo gruppo.
-                    Scopri i ticket ridotti per i gruppi di più di 15 persone.</p>
-                <div className="mb-4 text-black w-full font-medium text-lg">
-                    <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Scopri di più</Link>
+                    <p className="text-xl">Prenota l&apos;accesso per il tuo gruppo.
+                        Scopri i ticket ridotti per i gruppi di più di 15 persone.</p>
+                    <div className="mb-4 text-black w-full font-medium text-lg md:flex md:justify-end">
+                        <Link href="/info-gruppi" className="w-auto block text-center prime-bg rounded-full px-4 py-2 md:w-fit">Scopri di più</Link>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        {/*Servizi educativi*/}
-        <section className="w-[90%] mx-auto pt-8">
-            <div className="flex flex-col gap-8 p-4 mt-2 w-full text-white rounded-xl gradient">
-                <h3 className="text-2xl font-semibold mt-4 prime-text">Servizi educativi</h3>
-                <Image
-                    className="w-full h-[200px] object-cover rounded-xl"
-                    src="/placeholders/servizi-educativi.jpg" alt="Gruppi turistici" width={300} height={200}/>
+            {/*Servizi educativi*/}
+            <div className="w-full md:w-1/2 pt-8">
+                <div className="flex flex-col gap-8 p-4 mt-2 w-full text-white rounded-xl gradient">
+                    <h2 className="text-2xl font-semibold mt-4 prime-text">Servizi educativi</h2>
+                    <Image
+                        className="w-full h-[200px] object-cover rounded-xl"
+                        src="/placeholders/servizi-educativi.jpg" alt="Gruppi turistici" width={300} height={200}/>
 
-                <p className="text-xl">Clicca qui se vuoi prenotare l&apos;accesso ai musei con il tuo gruppo scolastico.</p>
-                <div className="mb-4 text-black w-full font-medium text-lg">
-                    <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Scopri di più</Link>
+                    <p className="text-xl">Clicca qui se vuoi prenotare l&apos;accesso ai musei con il tuo gruppo scolastico.</p>
+                    <div className="mb-4 text-black w-full font-medium text-lg md:flex md:justify-end">
+                        <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2 md:w-fit">Scopri di più</Link>
+                    </div>
                 </div>
             </div>
         </section>
@@ -191,25 +195,31 @@ export default async function Home() {
         </section>
 
         {/*News*/}
-        <section className="w-[90%] mx-auto pt-8">
-            <h2 className="text-3xl font-semibold my-8">News</h2>
+        <section className="w-[90%] mx-auto flex md:flex-row flex-col md:gap-8">
+            <div className="w-full md:1/2 pt-8">
+                <div className="flex flex-col gap-8 p-4 mt-2 w-full rounded-xl gradient">
+                    <h2 className="md:hidden text-3xl text-white font-semibold mt-2">News</h2>
+                    <h2 className="md:block hidden text-2xl font-semibold mt-2 prime-text">Leggi le ultime novità</h2>
+                    <Image
+                        className="w-full h-[300px] object-cover rounded-4xl p-4"
+                        src="/placeholders/news.jpg" alt="Interno" width={300} height={200}/>
 
-            <Image
-                className="w-full h-[300px] object-cover rounded-4xl p-4"
-                src="/placeholders/news.jpg" alt="Interno" width={300} height={200}/>
-
-            <div className="text-black w-full font-medium text-sm pt-4">
-                <Link href="/news-eventi" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Vedi tutte le
-                    news</Link>
+                    <div className="text-black w-full md:flex md:justify-end font-medium text-sm pt-4">
+                        <Link href="/news-eventi"
+                              className="md:w-fit w-auto block text-center prime-bg rounded-full px-4 py-2">
+                            Vedi tutte le news
+                        </Link>
+                    </div>
+                </div>
             </div>
-        </section>
 
-        {/*Musei Italiani*/}
-        <section className="w-[90%] mx-auto pt-8">
-            <div className="flex flex-col gap-8 p-4 mt-2 w-full rounded-xl gradient">
-                <h3 className="text-2xl font-semibold mt-2 prime-text">Musei Italiani</h3>
-                <div className="mb-4 text-black w-full text-end font-medium text-sm">
-                    <a aria-label="Vai alla sito di Musei Italiani" href="https://www.museiitaliani.it/" target="_blank" rel="noopener noreferrer" className="w-fit prime-bg rounded-full px-4 py-2">Vai al sito</a>
+            {/*Musei Italiani*/}
+            <div className="w-full md:1/2 pt-8 md:h-full">
+                <div className="flex flex-col gap-8 p-4 mt-2 w-full rounded-xl gradient md:h-full">
+                    <h3 className="text-2xl font-semibold mt-2 prime-text">Musei Italiani</h3>
+                    <div className="mb-4 text-black w-full text-end font-medium text-sm">
+                        <a aria-label="Vai alla sito di Musei Italiani" href="https://www.museiitaliani.it/" target="_blank" rel="noopener noreferrer" className="w-fit prime-bg rounded-full px-4 py-2">Vai al sito</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -220,19 +230,19 @@ export default async function Home() {
 
             <form className="bg-white rounded-xl flex flex-col gap-4 p-4">
                 <label className="text-sm">Nome
-                    <input type="text" className="w-full rounded-xl bg-[#ecf0f2] h-[48px] p-2"/>
+                    <input placeholder="Nome (obbligatorio)" type="text" className="w-full rounded-xl bg-[#ecf0f2] h-[48px] p-2"/>
                 </label>
                 <label className="text-sm">Cognome
-                    <input type="text" className="w-full rounded-xl bg-[#ecf0f2] h-[48px] p-2"/>
+                    <input placeholder="Cognome (obbligatorio)" type="text" className="w-full rounded-xl bg-[#ecf0f2] h-[48px] p-2"/>
                 </label>
                 <label className="text-sm">Email
-                    <input type="email" className="w-full rounded-xl bg-[#ecf0f2] h-[48px] p-2"/>
+                    <input placeholder="Email (obbligatorio)" type="email" className="w-full rounded-xl bg-[#ecf0f2] h-[48px] p-2"/>
                 </label>
                 <label className="text-sm">Messaggio
-                    <textarea className="w-full rounded-xl bg-[#ecf0f2] h-[48px] p-2"/>
+                    <textarea placeholder="Messaggio (obbligatorio)" className="w-full rounded-xl bg-[#ecf0f2] md:h-[200px] h-[48px] p-2"/>
                 </label>
-                <div className="text-black w-full font-medium text-sm">
-                    <button type="submit" className="w-full text-center prime-bg rounded-full px-4 py-2">Invia</button>
+                <div className="text-black w-full md:flex md:justify-end font-medium text-sm pt-4">
+                    <button type="submit" className="md:w-fit w-full text-center prime-bg rounded-full px-4 py-2">Invia</button>
                 </div>
             </form>
         </section>

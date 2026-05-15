@@ -175,12 +175,13 @@ export default function Menu() {
                         </li>
 
                         <li className="py-3 text-2xl font-semibold border-b border-black/50 cursor-pointer">
-                            <Link
-                                href="/"
-                                onNavigate={() => toggleMenu('close')}
+                            <a
+                                aria-label="Vai alla pagina dedicata all'elenco delle misure adottate per rendere i musei accessibili"
+                                href="https://musei.comune.cremona.it/it/accessibilita/percorsi-per-disabili-motori"
+                                target="_blank" rel="noopener noreferrer"
                             >
-                                Accessibilita
-                            </Link>
+                                Accessibilità
+                            </a>
                         </li>
 
                         <li className="py-3 text-2xl font-semibold border-b border-black/50 cursor-pointer">

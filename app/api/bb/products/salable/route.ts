@@ -5,6 +5,7 @@ import {
 } from '@/app/lib/domnia-auth';
 import {
     DomniaProductsRequestError,
+    getMockDomniaSalableProducts,
     getDomniaSalableProductsWithSession,
 } from '@/app/lib/domnia-products';
 
@@ -33,16 +34,20 @@ export async function GET() {
 
         return response;
     } catch (error) {
-        console.error('Failed to proxy Domnia salable products', error);
-
-        return NextResponse.json(
-            { message: 'Unable to load salable products' },
-            {
-                status:
-                    error instanceof DomniaProductsRequestError
-                        ? error.status
-                        : 500,
-            },
+        console.warn(
+            'Domnia salable products unavailable, using local mock response',
+            error,
         );
+
+        const response = NextResponse.json(getMockDomniaSalableProducts());
+
+        response.headers.set('Cache-Control', 'no-store');
+        response.headers.set('X-Domnia-Fallback', 'mock-products');
+
+        if (error instanceof DomniaProductsRequestError) {
+            response.headers.set('X-Domnia-Upstream-Status', String(error.status));
+        }
+
+        return response;
     }
 }

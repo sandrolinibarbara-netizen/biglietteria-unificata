@@ -93,7 +93,7 @@ export default async function MuseoStoriaNaturale() {
                     <h3 className="text-2xl font-semibold mt-2 prime-text">Proposte educative</h3>
                     <p>Dalle scuole dell'infanzia, fino agli adulti lavoriamo per aprire le porte dei musei e renderli accessibili al più ampio numero possibile di persone.</p>
                     <div className="mb-4 text-black w-full text-end font-medium text-lg">
-                        <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Scopri di piu</Link>
+                        <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Scopri di più</Link>
                     </div>
                 </div>
             </section>

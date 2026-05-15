@@ -28,7 +28,7 @@ export default function EventCard({card} : {card?: undefined|boolean}) {
             </div>
             {!card &&
                 <div className="text-black w-full font-medium text-sm pt-4">
-                    <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Vedi tutti gli
+                    <Link href="/news-eventi" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Vedi tutti gli
                         eventi</Link>
                 </div>
             }

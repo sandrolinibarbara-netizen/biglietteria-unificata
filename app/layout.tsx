@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Menu from "@/app/_components/Menu";
 import Footer from "@/app/_components/Footer";
+import Script from "next/script";
 
 const poppins = Poppins({
   weight: [ "100", "200", "300", "400", "500", "600", "700", "800", "900" ],
@@ -28,6 +29,8 @@ export default function RootLayout({
       <Menu/>
         {children}
       <Footer/>
+      <Script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js" defer />
+
       </body>
     </html>
   );

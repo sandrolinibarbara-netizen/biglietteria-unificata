@@ -8,6 +8,7 @@ import {
 } from '@/app/lib/domnia-auth';
 import type { DomniaSession } from '@/app/lib/domnia-auth';
 import type { ProductResponse } from '@/app/lib/domnia-types';
+import mockSalableProductsResponse from '@/app/lib/mocks/domnia-salable-products.json';
 
 export class DomniaProductsRequestError extends Error {
     status: number;
@@ -17,6 +18,21 @@ export class DomniaProductsRequestError extends Error {
         this.name = 'DomniaProductsRequestError';
         this.status = status;
     }
+}
+
+export function getMockDomniaSalableProducts() {
+    return (
+        Array.isArray(mockSalableProductsResponse)
+            ? mockSalableProductsResponse
+            : []
+    ).map((product) => ({
+        ...product,
+        base_price: product.base_price
+            ? {
+                ...product.base_price,
+            }
+            : undefined,
+    })) as ProductResponse[];
 }
 
 export async function fetchDomniaSalableProducts(accessToken: string) {

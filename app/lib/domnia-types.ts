@@ -1,12 +1,20 @@
+type ExperienceDescriptionBlock = {
+    children?: Array<{
+        text?: string;
+    }>;
+};
+
 export type ExperienceCardData = {
     cheapest?: number;
     connectedProducts?: Array<number | string>;
-    description?: Array<{
-        children?: Array<{
-            text?: string;
-        }>;
-    }>;
+    description?: string | ExperienceDescriptionBlock[];
     documentId?: string;
+    locations: Array<{
+        label?: string;
+        lat?: number;
+        lng?: number;
+        [key: string]: unknown;
+    }>;
     slug?: string;
     tagIds?: number[];
     title?: string;
@@ -21,4 +29,5 @@ export type ProductResponse = {
         start_date?: string;
         value?: number;
     };
+    [key: string]: unknown;
 };

@@ -33,17 +33,24 @@ export default function Footer() {
                 <div>
                     <ul>
                         <li>Privacy Policy</li>
-                        <li>Accessibilita</li>
+                        <li><a aria-label="Vai alla pagina dedicata all'elenco delle misure adottate per rendere i musei accessibili" href="https://musei.comune.cremona.it/it/accessibilita/percorsi-per-disabili-motori" target="_blank" rel="noopener noreferrer">
+                            Accessibilità
+                        </a></li>
                         <li>Condizioni di vendita</li>
                     </ul>
                 </div>
 
-                <div>
+                <div className="break-all">
                     <h4 className="prime-text font-semibold">Contatti</h4>
                     <ul>
                         <li>Uffici: 0372 407269</li>
                         <li>museo.alaponzone@cremona.comune.it</li>
                     </ul>
+                </div>
+
+                <div className="break-all">
+                    <p>Per inviare segnalazioni riguardanti l'accessibilità, scrivici a <a aria-label="Scrivi una mail per fare una segnalazione riguardante l'accessibilità del sito" className="underline" href="mailto:museo.alaponzone@cremona.comune.it" target="_blank" rel="noopener noreferrer">museo.alaponzone@cremona.comune.it</a>
+                    </p>
                 </div>
 
                 <div>
@@ -52,7 +59,8 @@ export default function Footer() {
                         <li>Art Bonus</li>
                         <li className="flex gap-2">
                             <Link href="/" className="w-6">
-                                <Image src="/icons/hugeicons_facebook-02.webp" alt="facebook logo" width={48} height={48}/>
+                                <Image src="/icons/hugeicons_facebook-02.webp" alt="facebook logo" width={48}
+                                       height={48}/>
                             </Link>
                             <Link href="/" className="w-6">
                                 <Image src="/icons/logo-instagram.webp" alt="instagram logo" width={48} height={48}/>

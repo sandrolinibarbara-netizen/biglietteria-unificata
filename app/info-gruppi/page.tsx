@@ -100,7 +100,7 @@ export default async function InfoGruppi() {
                     <p className="text-xl">Clicca qui se vuoi prenotare l'accesso ai musei con il tuo gruppo scolastico.</p>
                     <div className="mb-4 text-black w-full font-medium text-lg">
                         <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Scopri di
-                            piu</Link>
+                            più</Link>
                     </div>
                 </div>
 
@@ -110,7 +110,7 @@ export default async function InfoGruppi() {
                         renderli accessibili al più ampio numero possibile di persone.
                     </p>
                     <div className="mb-4 text-black w-full text-end font-medium text-lg">
-                        <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Scopri di piu</Link>
+                        <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Scopri di più</Link>
                     </div>
                 </div>
             </section>

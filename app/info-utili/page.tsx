@@ -95,7 +95,7 @@ export default async function InfoUtili() {
                                         Orari
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                        <div className="markdown whitespace-pre-line">
+                                        <div className="markdown">
                                             <Markdown>
                                                 {el.orari}
                                             </Markdown>
@@ -125,7 +125,7 @@ export default async function InfoUtili() {
                                         Accessibilità
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                        <div className="markdown whitespace-pre-line">
+                                        <div className="markdown">
                                             <Markdown>
                                                 {el.accessibilita}
                                             </Markdown>
@@ -161,7 +161,7 @@ export default async function InfoUtili() {
                                             </p>
                                         </AccordionSummary>
                                         <AccordionDetails>
-                                            <div className="markdown whitespace-pre-line">
+                                            <div className="markdown">
                                                 <Markdown>
                                                     {el.riduzioni}
                                                 </Markdown>
@@ -199,7 +199,7 @@ export default async function InfoUtili() {
                                                 </p>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <div className="markdown whitespace-pre-line">
+                                                <div className="markdown">
                                                     <Markdown>
                                                         {el.gratuita}
                                                     </Markdown>

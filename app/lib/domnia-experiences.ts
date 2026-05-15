@@ -2,10 +2,11 @@ import 'server-only';
 
 import {
     DOMNIA_API_BASE_URL,
+    ensureDomniaSession,
     getDomniaApiHeaders,
-    requireDomniaAccessToken,
 } from '@/app/lib/domnia-auth';
 import mockProductGroupsResponse from '@/app/lib/mocks/domnia-product-groups.json';
+import { getMockDomniaSalableProducts } from '@/app/lib/domnia-products';
 import type {
     ExperienceCardData,
     ProductResponse,
@@ -14,6 +15,18 @@ import type {
 type ProductGroupResponse = {
     data: ExperienceCardData[];
 };
+
+const mockProductGroupLocations = [
+    'Via Ugolani Dati, 4, Cremona',
+    'Via San Lorenzo, 4, Cremona',
+    'Via Ugolani Dati, 4, Cremona',
+    'Via Castelleone, 51, Cremona',
+    'Via Ugolani Dati, 4, Cremona',
+    'Via Ugolani Dati, 4, Cremona',
+    'Via San Lorenzo, 4, Cremona',
+    'Via Ugolani Dati, 4, Cremona',
+    'Via Castelleone, 51, Cremona',
+];
 
 async function fetchDomniaJson<T>(path: string, accessToken: string): Promise<T> {
     const response = await fetch(`${DOMNIA_API_BASE_URL}${path}`, {
@@ -30,12 +43,42 @@ async function fetchDomniaJson<T>(path: string, accessToken: string): Promise<T>
 }
 
 function getMockProductGroups() {
+    const mockProductIds = getMockDomniaSalableProducts()
+        .map((product) => product.base_price?.product_id)
+        .filter((productId) => productId !== undefined);
+
     return (
         Array.isArray(mockProductGroupsResponse.data)
             ? mockProductGroupsResponse.data
             : []
-    ).map((productGroup) => ({
+    ).map((productGroup, index) => ({
         ...productGroup,
+        connectedProducts:
+            Array.isArray(productGroup.connectedProducts) &&
+            productGroup.connectedProducts.length > 0
+                ? productGroup.connectedProducts
+                : mockProductIds[index % mockProductIds.length] !== undefined
+                    ? [mockProductIds[index % mockProductIds.length]!]
+                    : [],
+        locations: Array.isArray(productGroup.locations) &&
+            productGroup.locations.length > 0
+            ? productGroup.locations.map((location, locationIndex) => ({
+                ...location,
+                label:
+                    'label' in location && typeof location.label === 'string'
+                        ? location.label
+                        : mockProductGroupLocations[
+                            (index + locationIndex) % mockProductGroupLocations.length
+                        ],
+            }))
+            : [
+                {
+                    label:
+                        mockProductGroupLocations[
+                            index % mockProductGroupLocations.length
+                        ],
+                },
+            ],
     })) as ExperienceCardData[];
 }
 
@@ -110,11 +153,11 @@ async function fetchProductsWithFallback(accessToken: string) {
         return Array.isArray(response) ? response : [];
     } catch (error) {
         console.warn(
-            'Domnia salable products unavailable, continuing without enrichment',
+            'Domnia salable products unavailable, using local mock response',
             error,
         );
 
-        return [];
+        return getMockDomniaSalableProducts();
     }
 }
 
@@ -172,7 +215,19 @@ export async function fetchExperiencesWithAccessToken(accessToken: string) {
 }
 
 export async function getExperiences(returnTo: string) {
-    const accessToken = await requireDomniaAccessToken(returnTo);
+    try {
+        const { session } = await ensureDomniaSession();
 
-    return fetchExperiencesWithAccessToken(accessToken);
+        return fetchExperiencesWithAccessToken(session.accessToken);
+    } catch (error) {
+        console.warn(
+            `Domnia session unavailable for ${returnTo}, using local mock response`,
+            error,
+        );
+
+        return enrichExperiences(
+            getMockProductGroups(),
+            getMockDomniaSalableProducts(),
+        );
+    }
 }

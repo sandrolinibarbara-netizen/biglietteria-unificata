@@ -6,25 +6,49 @@ import EventCard from "@/app/_components/EventCard";
 import {getExperiences} from "@/app/lib/domnia-experiences";
 export default async function Home() {
 
-    let museums, content;
+    let museums, content, contentMuseums;
 
     try {
 
         museums = await getExperiences('/');
+        console.log(museums)
         const data = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/homepage'+
             '?populate[0]=immagine',
             {next: {revalidate: 1000}}
         );
         content = await data.json();
-        console.log(content)
+
+        const dataMuseums = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/museums?populate=*',
+            {next: {revalidate: 1000}})
+        contentMuseums = await dataMuseums.json();
+
+        for(const museum of museums) {
+            for(const contentMuseum of contentMuseums.data) {
+                if(museum.slug === contentMuseum.slug) {
+                    museum.heroImage = contentMuseum.immagine;
+                    museum.ticketImage = contentMuseum.immagine_biglietti_standard;
+                    break;
+                }
+            }
+        }
+        console.log(museums)
 
     } catch(e) {
         unstable_rethrow(e);
         console.log(e)
     }
 
-    function getAddress(string:string) {
-        const arr = string.split(', ');
+    function getAddress(address?: string) {
+        if (!address) {
+            return 'Cremona';
+        }
+
+        const arr = address.split(', ');
+
+        if (arr.length < 3) {
+            return address;
+        }
+
         return arr[1] + ', ' + arr[2];
     }
 
@@ -44,29 +68,33 @@ export default async function Home() {
 
             <div className="flex flex-col gap-4">
             { museums &&
-                museums.map((el, i) => {
+                museums.map((el) => {
                     return(
                         <div className="w-full text-white rounded-xl gradient"
                             key={el.title}>
                             <div className="w-full h-[200px]">
                                 <Image
                                     className="w-full h-full object-cover rounded-t-xl"
-                                    src={`/placeholders/${i}-hero.jpg`} alt={`Interno del ${el.title}`} width={300} height={200}/>
+                                    src={process.env.NEXT_PUBLIC_BASE_URL + el.heroImage.url} alt={`Interno del ${el.title}`} width={300} height={200}/>
                             </div>
                             <div className="p-4 mt-2">
                                 <h3 className="text-2xl font-medium">{el.title}</h3>
-                                <p className="text-sm">{getAddress(el.locations[0].label)}</p>
+                                <p className="text-sm">{getAddress(el.locations[0]?.label)}</p>
 
                                 <div className="flex flex-col gap-4 bg-white rounded-xl text-black p-4 mt-8 mb-4">
                                     <Image
                                         className="w-full h-[200px] object-cover rounded-xl"
-                                        src={`/placeholders/${i}-ticket.jpg`} alt={`Interno del ${el.title}`} width={300} height={200}/>
+                                        src={process.env.NEXT_PUBLIC_BASE_URL + el.ticketImage.url} alt={`Interno del ${el.title}`} width={300} height={200}/>
                                     <div className="flex flex-col gap-2">
                                         <h4 className="text-xl font-medium">Ticket {el.title}</h4>
-                                        <p className="line-clamp-6">{JSON.parse(museums[0].description)[0].children[0].text}</p>
-                                        <div className="flex items-center justify-between mt-4">
-                                            <p className="text-sm">A partire da: <br/><span className="text-xl font-medium">{el.cheapest}</span></p>
-                                            <a target="_blank" className="flex items-center gap-2 text-lg font-medium prime-bg rounded-full px-4 py-2" href={`https://multishop-cremona.collaudo.domniapass.com/it/products/${el.slug}`}>
+                                        <p className="line-clamp-6">
+                                            {el.description?.replace(/<\/?[^>]+(>|$)/g, "")}
+                                        </p>
+                                        <div className="flex items-center justify-end mt-4">
+                                            {/*<p className="text-sm">A partire da: <br/><span className="text-xl font-medium">{el.cheapest}</span></p>*/}
+                                            <a
+                                                aria-label="Vai alla pagina dedicata all'acquisto dei biglietti"
+                                                target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-lg font-medium prime-bg rounded-full px-4 py-2" href={`https://multishop-cremona.collaudo.domniapass.com/it/products/${el.slug}`}>
                                                 Prenota
                                                 <CircledArrow width={28} height={28}/>
                                             </a>
@@ -90,7 +118,7 @@ export default async function Home() {
             <div className="w-full text-white rounded-xl gradient">
                 <div className="p-4 mt-2">
                     <h3 className="text-2xl font-semibold prime-text mt-4">Ticket Cumulativo</h3>
-                    <p className="text-xl text-medium mt-2">Scoprire un museo è bello, ma visitarne più di uno è meglio. Il ticket cumulativo ti consente l'accesso a tutti i Musei del Polo Civico con tariffa agevolata.</p>
+                    <p className="text-xl text-medium mt-2">Scoprire un museo è bello, ma visitarne più di uno è meglio. Il ticket cumulativo ti consente l&apos;accesso a tutti i Musei del Polo Civico con tariffa agevolata.</p>
 
                     <div className="flex flex-col gap-4 bg-white rounded-xl text-black p-4 mt-8 mb-4">
                         <Image
@@ -133,10 +161,10 @@ export default async function Home() {
                     className="w-full h-[200px] object-cover rounded-xl"
                     src="/placeholders/gruppi.jpg" alt="Gruppi turistici" width={300} height={200}/>
 
-                <p className="text-xl">Prenota l'accesso per il tuo gruppo.
+                <p className="text-xl">Prenota l&apos;accesso per il tuo gruppo.
                     Scopri i ticket ridotti per i gruppi di più di 15 persone.</p>
                 <div className="mb-4 text-black w-full font-medium text-lg">
-                    <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Scopri di piu</Link>
+                    <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Scopri di più</Link>
                 </div>
             </div>
         </section>
@@ -149,9 +177,9 @@ export default async function Home() {
                     className="w-full h-[200px] object-cover rounded-xl"
                     src="/placeholders/servizi-educativi.jpg" alt="Gruppi turistici" width={300} height={200}/>
 
-                <p className="text-xl">Clicca qui se vuoi prenotare l'accesso ai musei con il tuo gruppo scolastico.</p>
+                <p className="text-xl">Clicca qui se vuoi prenotare l&apos;accesso ai musei con il tuo gruppo scolastico.</p>
                 <div className="mb-4 text-black w-full font-medium text-lg">
-                    <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Scopri di piu</Link>
+                    <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Scopri di più</Link>
                 </div>
             </div>
         </section>
@@ -171,7 +199,7 @@ export default async function Home() {
                 src="/placeholders/news.jpg" alt="Interno" width={300} height={200}/>
 
             <div className="text-black w-full font-medium text-sm pt-4">
-                <Link href="/" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Vedi tutte le
+                <Link href="/news-eventi" className="w-auto block text-center prime-bg rounded-full px-4 py-2">Vedi tutte le
                     news</Link>
             </div>
         </section>
@@ -181,7 +209,7 @@ export default async function Home() {
             <div className="flex flex-col gap-8 p-4 mt-2 w-full rounded-xl gradient">
                 <h3 className="text-2xl font-semibold mt-2 prime-text">Musei Italiani</h3>
                 <div className="mb-4 text-black w-full text-end font-medium text-sm">
-                    <Link href="/" className="w-fit prime-bg rounded-full px-4 py-2">Vai al sito</Link>
+                    <a aria-label="Vai alla sito di Musei Italiani" href="https://www.museiitaliani.it/" target="_blank" rel="noopener noreferrer" className="w-fit prime-bg rounded-full px-4 py-2">Vai al sito</a>
                 </div>
             </div>
         </section>
